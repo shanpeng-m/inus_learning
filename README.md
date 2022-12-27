@@ -6,23 +6,25 @@ Click [here](https://inusturbo.github.io) to visit my homepage.
 
 ## Learning
 
-- Leetcode from 2023/01/01
-- Nginx from 2022/12/26
-- HoloLens2-MRTK2 from 2022/10/20
+![LeetCode](https://img.shields.io/badge/LeetCode-FFA116?style=flat-square&logo=leetcode&logoColor=white) from 2023/01/01
+
+![Nginx](https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=nginx&logoColor=white) from 2022/12/26 
+
+![HoloLens2-MRTK2](https://img.shields.io/badge/HoloLens2MRTK2-5E5E5E?style=flat-square&logo=microsoft&logoColor=white) from 2022/10/20
 
 ## Planning
 
-- git
-- Redis
-- Docker
-- ROS/ROS2
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![ROS/ROS2](https://img.shields.io/badge/ROS/ROS2-22314E?style=flat-square&logo=ros&logoColor=white)
+![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D?style=flat-square&logo=vuedotjs&logoColor=white)
+![Swift](https://img.shields.io/badge/Swift-F05138?style=flat-square&logo=swift&logoColor=white)
+![SwiftUI](https://img.shields.io/badge/SwiftUI-F05138?style=flat-square&logo=swift&logoColor=white)
+![Objective-C](https://img.shields.io/badge/ObjectiveC-A8B9CC?style=flat-square&logo=c&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white)
 - Autoware
-- Vue
-- Swift
-- SwiftUI
-- Objective-C
-- JavaScript
-- TypeScript
 
 ## Finished
 

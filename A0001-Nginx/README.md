@@ -13,28 +13,121 @@ Nginx支持热部署，启动容易，可以做到7*24小时不间断运行。�
 - 正向代理：如果把局域网外的Internet想像成一个巨大的资源库，则局域网中的客户端要访问Internet，则需要通过代理服务器来访问，这种代理服务就是正向代理。
 - 反向代理：客户端对代理无感知，因为客户端无需任何配置就可以访问，我们只需要将请求发送给反向代理服务器中，由反向代理服务器去选择目标服务器获取数据后，再返回给客户端，此时反向代理服务器和目标服务器对外就是一个服务器，暴露的是代理服务器的地址，隐藏了真实的服务器IP地址。
 
+个人理解：正向代理对服务器隐藏客户端，反向代理对客户端隐藏服务器。
+
 ### 负载均衡
 
-
+客户端发送多个请求到服务器，服务器处理请求，有一些可能要与数据库进行交互，服务器处理完毕后，再将结果返回给客户端。但是这种架构当并发量特别大的时候，容易造成服务器崩溃，这是由于服务器性能瓶颈造成的问题。单个服务器解决不了，我们将请求分发到多个服务器上，将负载分发到不同的服务器上，也就是负载均衡。
 
 ### 动静分离
 
+为了加快网页解析速度，可以把动态页面和静态页面由不同的服务器来解析，加快解析速度，降低单个服务器压力。
 
+## 下载安装虚拟机和操作系统
 
-## Nginx安装、常用命令和配置文件
+我们使用CentOS 7.4 Minimal 版本 [下载地址](https://vault.centos.org/7.4.1708/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso)，这样没有其他软件，比较轻巧。安装虚拟机和操作系统请参考其他资料。
 
-### 在Linux系统中安装Nginx
+安装后发现无法上网，使用`ip addr`命令查看，发现有本地回环127.0.0.1
 
-### ginx常用命令
+输入`vi /ect/sysconfig/network-scripts/ifcfg-ens33`
 
-### nginx配置文件
+将`ONBOOT=no`改成 `ONBOOT=yes`
 
-## Nginx配置实例1: 反向代理
+保存该文件，然后重启网络服务`systemctl restart network`
 
-## Nginx配置实例2: 负载均衡
+这时虚拟机已经可以正常的上网了
 
-## Nginx配置实例3: 动静分离
+使用`ip addr`命令查看ip
 
-## Nginx配置高可用集群
+输入`vi /ect/sysconfig/network-scripts/ifcfg-ens33`
 
-## Nginx执行原理
+将`BOOTPROTO=dhcp` 改成 `BOOTPROTO=static`
+
+增加`IPADDR=刚刚的ip`，`NETMASK=255.255.255.0`，`GATEWAY=刚刚的ip最后一组变成.1`(Mac 使用vmware的情况下是.2)，`DNS1=8.8.8.8` 
+
+保存该文件，然后重启网络服务`systemctl restart network`
+
+## 常用版本分为四大阵营
+
+Nginx开源版，Nginx plus商业版，OpenResty（开源），Tengine（淘宝网公布，开源）
+
+## 下载与安装
+
+[下载1.22.1版本](http://nginx.org/download/nginx-1.22.1.tar.gz)上传至服务器root根目录
+
+执行命令解压缩：`tar zxvf nginx-1.22.1.tar.gz `
+
+安装依赖并安装：
+
+```bash
+yum install -y gcc
+yum install -y perl
+yum install -y pcre pcre-devel
+yum install -y zlib zlib-devel
+cd nginx-1.22.1
+./configure --prefix=/usr/local/nginx
+make
+make install
+# 启动nginx
+cd /usr/local/nginx/sbin
+./nginx
+# 关闭防火墙
+systemctl stop firewalld.service
+# 禁止防火墙开机启动
+systemctl disable firewalld.service
+```
+
+在物理机输入虚拟机IP，出现nginx字样即成功。
+
+其他命令：
+
+```bash
+cd /usr/local/nginx/sbin
+# 启动
+./nginx
+# 快速停止
+./nginx -s stop
+# 在推出前完成已经接受的连接请求
+./nginx -s quit
+# 重新加载配置
+./nginx -s reload
+```
+
+## 安装成系统服务
+
+```bash
+vi /usr/lib/systemd/system/nginx.service
+```
+
+```bash
+[Unit]
+Description=nginx - high performance web server
+Documentation=http://nginx.org/en/docs/
+After=network.target remote-fs.target nss-lookup.target
+ 
+[Service]
+Type=forking
+PIDFile=/usr/local/nginx/logs/nginx.pid
+ExecStartPre=/usr/local/nginx/sbin/nginx -t -c /usr/local/nginx/conf/nginx.conf
+ExecStart=/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+ExecReload=/usr/local/nginx/sbin/nginx -s reload
+ExecStop=/usr/local/nginx/sbin/nginx -s stop
+ExecQuit=/usr/local/nginx/sbin/nginx -s quit
+PrivateTmp=true
+ 
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+# 重新加载服务
+systemctl daemon-reload
+# 启动nginx服务
+systemctl start nginx.service
+# 开机启动nginx
+systemctl enable nginx.service
+```
+
+## 运行原理
+
+![image-20221227223419050](https://cdn.jsdelivr.net/gh/inusturbo/images@main/uPic/20221227-223419-J618UP.png)
