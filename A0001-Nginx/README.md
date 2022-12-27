@@ -131,3 +131,59 @@ systemctl enable nginx.service
 ## 运行原理
 
 ![image-20221227223419050](https://cdn.jsdelivr.net/gh/inusturbo/images@main/uPic/20221227-223419-J618UP.png)
+
+## Nginx 基础配置
+
+### 最小配置文件/conf/nginx.conf
+
+```json
+# 工作进程个数（主进程成为master，工作进程成为worker） 最好对应当前计算机物理CPU核数
+worker_processes  1;
+
+# 事件驱动模块
+events {
+   
+    # 一个worker可以创建的连接数
+    worker_connections  1024;
+}
+
+http {
+    # 可以用include命令将其他配置文件引入本配置文件
+	 # mime是响应头 表明返回的类型 不同的类型有不同的后缀名 告诉浏览器这个文件是什么类型
+    include       mime.types;
+    # 如果不在上面的类型中则使用application/octet-stream类型
+    default_type  application/octet-stream;
+   
+	 # 数据零拷贝 免除了拷贝的过程 直接将文件通过网络发送 nginx不进行读取和拷贝
+    sendfile        on;
+   
+    #保持连接 超时的时间
+    keepalive_timeout  65;
+
+    # vhost虚拟主机 一个server代表一个主机，通过端口号的开启不同主机
+    server {
+   	  # 端口号
+        listen       80;
+   	  # 域名或者主机名
+        server_name  localhost;
+		  # 域名URI（不是URL）  域名后面的那些内容
+        location / {
+   			# 相对路径（相对nginx程序）
+            root   html;
+   			# html目录下的index.html index.htm
+            index  index.html index.htm;
+        }
+		  # 遇到错误 展示的页面
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+}
+```
+
+### 核心配置
+
+
+
+### 虚拟主机配置
