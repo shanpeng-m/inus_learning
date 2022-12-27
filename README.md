@@ -30,7 +30,7 @@ Click [here](https://inusturbo.github.io) to visit my homepage.
 
 ## Commit History
 
-[![Commit History Chart](https://commit-history-api.herokuapp.com/svg?repos=inus_learning&type=Date)](https://the-commit-history.vercel.app/#inusturbo/inus_learning&Date)
+[![Commit History Chart](https://commit-history-api.herokuapp.com/svg?repos=inusturbo/inus_learning&type=Date)](https://the-commit-history.vercel.app/#inusturbo/inus_learning&Date)
 
 Thanks [the-commit-history](https://the-commit-history.vercel.app/)
 
