@@ -12,6 +12,8 @@ Click [here](https://inusturbo.github.io) to visit my homepage.
 
 ![HoloLens2-MRTK2](https://img.shields.io/badge/HoloLens2MRTK2-5E5E5E?style=flat-square&logo=microsoft&logoColor=white) from 2022/10/20
 
+![JavaScript](https://img.shields.io/badge/LeetCode-F7DF1E?style=flat-square&logo=javascript&logoColor=black)from 2023/01/30
+
 ## Planning
 
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
@@ -22,8 +24,8 @@ Click [here](https://inusturbo.github.io) to visit my homepage.
 ![Swift](https://img.shields.io/badge/Swift-F05138?style=flat-square&logo=swift&logoColor=white)
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-F05138?style=flat-square&logo=swift&logoColor=white)
 ![Objective-C](https://img.shields.io/badge/ObjectiveC-A8B9CC?style=flat-square&logo=c&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white)
+
 - Autoware
 
 ## Finished
@@ -44,3 +46,4 @@ Thanks [the-commit-history](https://the-commit-history.vercel.app/)
 
 - A0001 - The *[Nginx](./A0001-Nginx)* folder is my Nginx learning note.
 
+- A0002 - The *[JavaScript](./A0002-JavaScript)* folder is my JavaScript learning note.
