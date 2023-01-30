@@ -5,29 +5,39 @@
     <meta charset="UTF-8">
     <title></title>
     <!--JS代码需要写在script标签中-->
+    <!--Script 一旦用于引入外部文件，就不能在标签内编写代码了，如果编写了也会被忽略。如果需要，可以再创建一个script标签。-->
+    <!--
+        可以将JS代码编写到外部的js文件中，然后通过script引入
+        写到外部文件中的JS代码，可以被多个页面引入，可以减少代码的重复编写
+        也可以利用浏览器的缓存机制，提高页面的加载速度
+    -->
+    <script type="text/javascript" src="js/code-1.js"></script>
     <script type="text/javascript">
+        
         /*
         * 控制浏览器发出一个警告框
         */
-        //alert("这是我的第一行JS代码");
+        alert("这是我的第一行JS代码");
 
         /*
         * 在页面中输出一个内容
         * document.write()可以向body中输出内容
         */
-        //document.write("这行代码应该在页面中出现。");
+        document.write("这行代码应该在页面中出现。");
 
         /*
         * 在控制台输出一个内容
         * document.write()可以向body中输出内容
         */
-        //console.log("这条信息应该在控制台输出");
+        console.log("这条信息应该在控制台输出");
 
     </script>
 </head>
 
 <body>
-
+    <!--虽然可以写在标签的属性中，但是他们属于结构和行为耦合，不方便维护，不推荐使用-->
+<button onclick="alert('这是一个按钮');">按钮</button>
+<a href="javascript:alert('这是一个链接');">链接</a>
 </body>
 
 </html>
