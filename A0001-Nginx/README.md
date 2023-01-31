@@ -221,4 +221,132 @@ MX：指向邮件服务器
 
 ​	httpdns
 
-Nginx中的虚拟主机配置
+## Nginx中的虚拟主机配置
+
+先创建几个站点
+
+```bash
+cd /
+mkdir www
+cd www
+mkdir www
+mkdir vod
+cd vod
+vi index.html
+```
+
+在`index.html`中随便写点内容
+
+```bash
+cd ../www
+vi index.html
+```
+
+在`index.html`中随便写点内容
+
+```bash
+cd /usr/local/nginx/conf
+vi nginx.conf
+```
+
+打开之后在http模块下修改
+
+```bash
+# 工作进程个数（主进程成为master，工作进程成为worker） 最好对应当前计算机物理CPU核数
+worker_processes  1;
+
+# 事件驱动模块
+events {
+   
+    # 一个worker可以创建的连接数
+    worker_connections  1024;
+}
+
+http {
+    # 可以用include命令将其他配置文件引入本配置文件
+	 # mime是响应头 表明返回的类型 不同的类型有不同的后缀名 告诉浏览器这个文件是什么类型
+    include       mime.types;
+    # 如果不在上面的类型中则使用application/octet-stream类型
+    default_type  application/octet-stream;
+   
+	 # 数据零拷贝 免除了拷贝的过程 直接将文件通过网络发送 nginx不进行读取和拷贝
+    sendfile        on;
+   
+    #保持连接 超时的时间
+    keepalive_timeout  65;
+
+    # vhost虚拟主机 一个server代表一个主机，通过端口号的开启不同主机
+    server {
+   	  # 端口号
+        listen       80;
+   	  # 域名或者主机名
+        server_name  localhost;
+		  # 域名URI（不是URL）  域名后面的那些内容
+        location / {
+   			# 相对路径（相对nginx程序）
+            root   html;
+   			# html目录下的index.html index.htm
+            index  index.html index.htm;
+        }
+		  # 遇到错误 展示的页面
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+    server {
+   	  # 端口号
+        listen       88;
+   	  # 域名或者主机名
+        server_name  localhost;
+		  # 域名URI（不是URL）  域名后面的那些内容
+        location / {
+   			# 相对路径（相对nginx程序）
+            root   /www/www;
+   			# html目录下的index.html index.htm
+            index  index.html index.htm;
+        }
+		  # 遇到错误 展示的页面
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+}
+```
+
+```bash
+systemctl reload nginx #重新加载
+systemctl status nginx #查看状态
+```
+
+## ServerName匹配规则
+
+一个Server里面可以配置多个server_name
+
+从头到位匹配第一个符合规则的server。如果全部没有匹配，则进入第一个server。
+
+```bash
+server {
+   	  # 端口号
+        listen       80;
+   	  # 域名或者主机名
+        server_name  vod.server.com vod1.server.com; #可配置多个域名，用空格隔开
+        # server_name  *.server.com; #可配置通配符（前置匹配）
+        # server_name  www.server.*; #可配置通配符（后置匹配）
+        # server_name  ~^[0-9]+\.server\.com$; #正则匹配
+		  # 域名URI（不是URL）  域名后面的那些内容
+        location / {
+   			# 相对路径（相对nginx程序）
+            root   /www/www;
+   			# html目录下的index.html index.htm
+            index  index.html index.htm;
+        }
+		  # 遇到错误 展示的页面
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+```
+
