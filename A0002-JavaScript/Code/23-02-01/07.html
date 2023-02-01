@@ -9,7 +9,7 @@
          *变量的数据类型：
          *  1. 基本数据类型：
          *      1. Number数值类型：1,2,3,4,5,6,7,8,9,0
-         *      2. String字符串类型：'a','b','c', "Hello World" ⚠️引号不能嵌套，但是单引号中可以放双引号，或者外面放双引号，里面放单引号，
+         *      2. String字符串类型：'a','b','c', "Hello World" ⚠️引号不能嵌套，但是单引号中可以放双引号，或者外面放双引号，里面放单引号。
          *      3. Boolean布尔类型：true,false
          *      4. Null空类型：null
          *      5. Undefined未定义类型：undefined
@@ -19,8 +19,56 @@
          *  typeof 变量
          *  e.g. console.log(typeof a);
          *  使用JS进行浮点运算会产生不精确的结果，所以千万不要用JS算钱。
-         * p9
+         *  null 这个值专门用来表示一个为空的对象。
+         *  使用typeof 检查null会返回object值
+         *  undefined 这个值声明了但是没有被赋值的时候
+         *  使用typeof 检查undefined会返回undefined值
+         * 
+         * 
+         * 强制类型转换
+         * - 指将一个数据类型强制转换成其他的数据类型
+         * - 类型转换主要指将他的数据类型转换为 String Number Boolean
+         */ 
+
+        /* 将其他数据类型转换为String
+         * 方式一：调用被转换数据类型的toString()方法。该方法不会影响到原变量。只会返回转换的结果。null和undefined没有toString()方法
+         * 方式二：调用String()函数 a = String(a);
+         *      对于Number和Boolean，方式二和方式一没区别。
+         *      对于null和undefined不调用toString()方法，会将null转换为"null"，会将undefined转换为"undefined"
          */
+
+        
+        var a = 123;
+        console.log(typeof a);
+        console.log(a);
+
+        var b = a.toString();
+        console.log(typeof b);
+        console.log(b);
+
+        /* 将其他数据类型转换为Number
+         * 方式一：使用Number()函数，用法和String()函数相同。
+         * 如果是纯数字的字符串，则转换为数字，如果含有除了数字以外的其他内容，则转换为NaN
+         * 如果是空字符串或者全是空格的字符串则转换为0
+         * true转成1，false转成0
+         * null转成0
+         * undefined转成NaN
+         * 
+         * 方式二：
+         * 使用parseInt()函数，转为整数。
+         * 使用parseFloat()函数，转为浮点数
+         * var atest = "123px";
+         * parseInt(atest); // 123
+         * 可以将一个字符串转换为数字，但是如果字符串中含有非数字的内容，则会将非数字的内容去掉，只保留数字部分。
+         */
+        var aa = "123";
+        console.log(typeof aa);
+        aa = Number(aa);
+        console.log(typeof aa);
+        
+        var atest = "123px";
+        parseInt(atest); // 123
+
     </script>
 </head>
 
