@@ -417,7 +417,7 @@ http {
         server_name  localhost;
 		  # 域名URI（不是URL）  域名后面的那些内容
         location / {
-          proxy_pass 192.168.0.102; 
+          proxy_pass http://192.168.0.102; 
    			# 相对路径（相对nginx程序）
         #   root   html;
    			# html目录下的index.html index.htm
@@ -437,9 +437,121 @@ http {
 但是不支持转发到https的服务器上
 
 ## 配置负载均衡
+```bash
+# 工作进程个数（主进程成为master，工作进程成为worker） 最好对应当前计算机物理CPU核数
+worker_processes  1;
+
+# 事件驱动模块
+events {
+   
+    # 一个worker可以创建的连接数
+    worker_connections  1024;
+}
+
+http {
+    # 可以用include命令将其他配置文件引入本配置文件
+	 # mime是响应头 表明返回的类型 不同的类型有不同的后缀名 告诉浏览器这个文件是什么类型
+    include       mime.types;
+    # 如果不在上面的类型中则使用application/octet-stream类型
+    default_type  application/octet-stream;
+   
+	 # 数据零拷贝 免除了拷贝的过程 直接将文件通过网络发送 nginx不进行读取和拷贝
+    sendfile        on;
+   
+    #保持连接 超时的时间
+    keepalive_timeout  65;
+    
+		upstream httpds{
+				server 192.168.0.1:80;
+				server 192.168.0.2:80;
+				server 192.168.0.3:80;
+		}
+    # vhost虚拟主机 一个server代表一个主机，通过端口号的开启不同主机
+    server {
+   	  # 端口号
+        listen       80;
+   	  # 域名或者主机名
+        server_name  localhost;
+		  # 域名URI（不是URL）  域名后面的那些内容
+        location / {
+          proxy_pass http://httpds; 
+   			# 相对路径（相对nginx程序）
+        #   root   html;
+   			# html目录下的index.html index.htm
+        #   index  index.html index.htm;
+        }
+		  # 遇到错误 展示的页面
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+}
+```
+
+`upstream`配置负载均衡，简单的轮询算法。
+
+## 负载均衡策略
+
+### 权重
+
+给不同的服务器设置不同的权重，分别给不同的服务器不同的负载。
+
+配置方法如下：
+
+```bash
+		upstream httpds{
+				server 192.168.0.1:80 weight=8;
+				server 192.168.0.2:80 weight=2;
+				server 192.168.0.3:80 weight=1;
+		}
+```
+
+### down
+
+表示当前主机不参与负载均衡
+
+配置方法如下：
+
+```bash
+		upstream httpds{
+				server 192.168.0.1:80 weight=8 down;
+				server 192.168.0.2:80 weight=2;
+				server 192.168.0.3:80 weight=1;
+		}
+```
+
+### backup
+
+备用服务器，正常情况下不用，只有当出现问题时才会负载到这台机器。
+```bash
+		upstream httpds{
+				server 192.168.0.1:80 weight=8 down;
+				server 192.168.0.2:80 weight=2;
+				server 192.168.0.3:80 weight=1 backup;
+		}
+```
+
+### ip_hash
+
+轮询的方式无法保持会话，下面这几种方法可以在负载均衡的同时保持会话。
+
+通过来源IP地址，定向转向到同一台服务器。只要客户端IP不变，就可以转向同一个服务器。
+
+### least_conn
+
+最少连接访问
+
+### url_hash
+
+根据用户访问的url定向转发请求
+
+### fair
+
+根据后端服务器响应时间转发请求
 
 
 
--p23
+企业应用中，要么lua脚本自定义脚本，要么使用轮询方法。
 
-## 
+from p27
