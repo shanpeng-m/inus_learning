@@ -170,7 +170,7 @@ http {
         location / {
    			# 相对路径（相对nginx程序）
             root   html;
-   			# html目录下的index.html index.htm
+   			# html目录下的index.html index.htm	
             index  index.html index.htm;
         }
 		  # 遇到错误 展示的页面
@@ -327,7 +327,7 @@ systemctl status nginx #查看状态
 从头到位匹配第一个符合规则的server。如果全部没有匹配，则进入第一个server。
 
 ```bash
-server {
+	server {
    	  # 端口号
         listen       80;
    	  # 域名或者主机名
@@ -554,4 +554,56 @@ http {
 
 企业应用中，要么lua脚本自定义脚本，要么使用轮询方法。
 
-from p27
+## 动静分离
+
+### 使用动静分离的场景
+
+动静分离适合初创的企业。可以起到加速的作用。动静分离是让动态网站里的动态网页根据一定规则把不变的资源和经常变的资源区分开来，动静资源做好了拆分以后，我们就可以根据静态资源的特点将其做缓存操作，这就是网站静态化处理的核心思路。
+
+### 动静分离原理
+
+
+
+### Nginx动静分离的配置
+
+```bash
+    server {
+   	  # 端口号
+        listen       80;
+   	  # 域名或者主机名
+        server_name  localhost;
+		  # 域名URI（不是URL）  域名后面的那些内容
+        location / {
+          proxy_pass http://192.168.0.102:8080; 
+        }
+        location /css {
+          root html;
+          index index.html index.htm
+        }
+        location /js {
+          root html;
+          index index.html index.htm
+        }
+        location /image {
+          root html;
+          index index.html index.htm
+        }
+		  # 遇到错误 展示的页面
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+```
+
+<img src="https://cdn.jsdelivr.net/gh/inusturbo/images@main/uPic/20230203-131116-O2pN1h.png" alt="image-20230203131115933" style="zoom:55%;" />
+
+location / 将所有请求都默认匹配到默认路径下。
+
+location /* 比默认优先级高
+
+使用正则表达式匹配 location ~*/(js|img|css)
+
+
+
+from p30
