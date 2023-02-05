@@ -604,6 +604,93 @@ location /* 比默认优先级高
 
 使用正则表达式匹配 location ~*/(js|img|css)
 
+## URL Rewrite 伪静态
 
+目的是将index.jsp隐藏，
 
-from p30
+比如用户访问http://192.168.0.1/2.html实际上访问的是http://192.168.0.1/index.jsp?pageNum=2
+
+### 配置方法
+
+```bash
+    server {
+   	  # 端口号
+        listen       80;
+   	  # 域名或者主机名
+        server_name  localhost;
+		  # 域名URI（不是URL）  域名后面的那些内容
+        location / {
+          # rewrite ^正则表达式$ 目标访问页面 访问方法flag标记
+          # rewrite ^/2.html$ /index.jsp?pageNum=2 break;
+          # rewrite ^/([0-9]+).html$ /index.jsp?pageNum=$1 break;
+          proxy_pass http://192.168.0.102:8080; 
+        }
+        location /css {
+          root html;
+          index index.html index.htm
+        }
+        location /js {
+          root html;
+          index index.html index.htm
+        }
+        location /image {
+          root html;
+          index index.html index.htm
+        }
+		  # 遇到错误 展示的页面
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+```
+### 访问方法flag标记
+
+last 本条规则匹配完成后，继续向下匹配新的location URI规则。
+
+break 本条规则匹配完成后，不再匹配后面的任何规则
+
+redirect 返回302临时重定向，浏览器地址栏显示跳转后的URL地址
+
+permanent 返回301永久重定向，浏览器地址栏会显示跳转后的URL地址
+
+## 防盗链与http的referer
+
+盗链是指在自己的页面上展示一些并不在自己服务器上的一些内容， 获取别人的资源地址，绕过别人的资源展示页面，直接在自己的页面上向最终用户提供此内容。 一般被盗链的都是图片、 音乐、视频、软件等资源。通过盗链的手段可以减轻自己服务器的负担。
+
+防盗链：服务器中的资源只能由本站访问，不能由其他网站访问。
+
+**`Referer`** 请求头包含了当前请求页面的来源页面的地址，即表示当前页面是通过此来源页面里的链接进入的。服务端一般使用 `Referer` 请求头识别访问来源，可能会以此进行统计分析、日志记录以及缓存优化等。
+
+### 防盗链的配置
+
+```bash
+server {
+  # 端口号
+    listen       80;
+  # 域名或者主机名
+    server_name  localhost;
+	  # 域名URI（不是URL）  域名后面的那些内容
+    location / {
+      proxy_pass http://192.168.0.102:8080; 
+    }
+    location ~*/(js|img|css) {
+    	# valid_referers 192.168.0.103;#来源的网址
+    	# valid_referers none 192.168.0.103;#检测Referer头域不存在的情况
+    	# valid_referers blocked 192.168.0.103;#检测Referer头域的值被防火墙或者代理服务器删除或伪装的情况，这种情况，该头域的值以http://或者https://开头
+    	# valid_referers server_names 192.168.0.103;#折翼一个或多个URL，检测Referer头域的值是否是这些URL中的某一个
+    	if ($invalid_referer){
+    		retuen 403;
+    	}
+      root html;
+      index index.html index.htm
+    }
+	  # 遇到错误 展示的页面
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+```
+
+from p34
