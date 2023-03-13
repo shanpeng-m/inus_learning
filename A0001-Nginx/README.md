@@ -853,5 +853,25 @@ HTTPS协议是一种基于SSL/TLS协议的安全传输协议，通过使用数�
 
 自签名使用软件：OpenSSL，图形化工具XCA
 
+### 证书配置
 
-from p49
+将.key和.pem文件上传至服务器nginx目录下。在配置文件中配置
+
+```bash
+server{
+		listen 			443 ssl
+    server_name localhost;
+    ssl_certificate /data/cert/server.crt;
+    ssl_certifacate_key /data/cert/sever.key;
+}
+
+```
+
+
+
+
+
+
+
+from p51
+
