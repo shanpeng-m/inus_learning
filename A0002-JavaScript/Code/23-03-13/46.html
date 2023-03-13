@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript">
+        /*
+         * 对象：
+         * 1.对象是一种复合的数据类型，由多个数据组成的集合
+         * 2.对象的每个数据成员称为属性
+         * 3.对象的每个函数成员称为方法
+         * 4.对象的每个成员都有自己的名字和值
+         * 
+         * 1.宿主对象：由浏览器提供的对象比如BOM和DOM
+         * 2.内置对象：由ECMAScript规范定义的对象，比如Array、Date、Math、Number、Object、String
+         * 3.自定义对象：由用户自己创建的对象
+         * 
+         * --p47 对象的基本操作
+         * 1.创建对象
+         */
+        var obj = new Object();//创建一个空对象。Object()是一个构造函数constructor，用来创建对象。new关键字用来创建对象。
+        console.log(obj);
+        console.log(typeof obj); //使用typeof运算符检测对象的类型，结果是object
+        //向对象中添加属性
+        obj.name = "张三";
+        obj.age = 20;
+        obj.sayHello = function() {
+            console.log("Hello");
+        };
+        // 2.访问对象的属性
+        console.log(obj.name);
+
+        // 3.修改对象的属性
+        obj.name = "李四";
+        console.log(obj.name);
+
+        // 4.删除对象的属性
+        delete obj.name;
+        console.log(obj.name);
+
+        // 属性名不强制要求遵循标识符的规则，但是最好遵循标识符的规则
+        // 如果使用特殊的属性名，必须使用[]来访问
+
+        obj["123"] = "456";
+        console.log(obj["123"]);
+
+        // 这种方式更加灵活，可以使用变量来访问属性
+        var n = "123";
+        console.log(obj[n]);
+
+        // 属性值可以是任意的数据类型，包括对象
+
+        // 5.检测对象中是否存在某个属性
+        console.log("name" in obj);//如果存在返回true，否则返回false
+
+        // JS中的变量保存在栈中，对象保存在堆中。基本数据类型保存的是值，引用数据类型保存的是地址。
+        // 值与值之间是独立的，互不影响
+        var a = 10;
+        var b = a;
+        b = 20;
+        console.log(a); // 10
+        console.log(b); // 20
+        // 对象与对象之间是共享的，互相影响
+        var obj1 = {
+            name: "张三",
+            age: 20
+        };
+        var obj2 = obj1;
+        obj2.name = "李四";
+        console.log(obj1.name); // 李四
+        console.log(obj2.name); // 李四
+
+        //使用对象字面量创建对象, 可以在创建对象的同时，向对象中添加属性
+        var obj = {};
+        obj.name = "张三";
+        obj.age = 20;
+        console.log(obj.name);
+
+        var obj = {
+            name: "张三",
+            age: 20
+        };
+        console.log(obj.name);
+
+        //创建一个函数对象
+        var fun = new Function();
+        console.log(typeof fun); //function
+
+        //可以将要执行的代码封装到函数中，然后通过函数对象来调用
+        var fun = new Function("console.log('Hello')");
+        fun();
+
+        function fun2() {
+            console.log("Hello");
+        }
+
+        fun2();
+
+        var fun3 = function() {
+            console.log("Hello");
+        };
+        fun3();
+        //匿名函数
+        (function() {
+            console.log("Hello");
+        })();
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
