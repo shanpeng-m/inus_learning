@@ -1,0 +1,39 @@
+# 背景
+
+## 引入
+
+JavaScript是由Netscape Communications公司开发，是面向浏览器的脚本语言。取名JavaScript就是为了碰瓷当时非常火的Java，但是和Java是完全不同的两个语言。JavaScript是一个历经磨难的语言。它的设计者Brendan Eich在10天之内设计出了这门语言，但是他自己都不喜欢这门语言。但是由于当时的浏览器战争，微软的IE浏览器占据了绝对的市场份额，而IE浏览器只支持JavaScript，所以JavaScript一下子就火了起来。当时被称为“编程素人使用的低俗语言”，“制作土味网页的语言”。再加上在不同浏览器的表现并不相同，于是JavaScript就成了程序员眼中的“垃圾语言”。
+
+直到2005年Ajax技术登场之后，JavaScript才开始重新火起来。Ajax技术的出现，使得JavaScript可以在不刷新页面的情况下与服务器进行通信，这使得JavaScript可以用来开发Web应用程序。再加上Google推出了Chrome浏览器，使得JavaScript的性能得到了极大的提升，JavaScript才开始重新被程序员所接受。
+
+后来由于ECMA（European Computer Manufacturers Association）的出现，JavaScript才有了一个统一的标准，也就是ECMAScript。所以JavaScript和ECMAScript是一个东西，只是JavaScript是ECMAScript的实现。
+
+HTML5规定了浏览器对JavaScript的支持，所以现在的浏览器都支持JavaScript，所以我们可以放心的使用JavaScript了。现在HTML5已经不存在了，取而代之的是HTML LS（Living Standard），也就是活标准。所以现在的HTML标准是不断的在更新的，所以我们要学习的是HTML LS。但是这两个概念几乎是一样的，所以后面HTML5和HTML LS都会简称为HTML。
+
+## 前端
+
+前端开发涉及到终端用户所能直接看到的UI部分的开发，主要包括HTML、CSS和JavaScript这三个工具。HTML用来描述页面的结构，CSS用来描述页面的样式，JavaScript则用来描述页面的行为。这三个工具被称为前端三剑客。
+
+随着JavaScript库默认标准jQuery的出现，前端开发在2005年之后的10年中更加简单化。jQuery为我们提供了一系列非常简单易用的API，从基本的DOM操作、到AJAX的封装、再到动画效果的实现，使我们的前端开发工作变得更加顺畅。虽然现在jQuery已经不再是默认的标准，但是jQuery的思想已经深入到了我们的开发中，因此我们仍然会使用jQuery的思想来进行开发。
+
+前端框架（Frontend framework）是一个基于HTML、CSS和JavaScript技术的框架，它可以帮助开发者快速地构建可复用、高性能且响应式的web应用程序。框架包含了一系列的预编写的HTML、CSS和JavaScript代码，开发者可以基于这些代码进行二次开发，从而快速构建出符合自己需求的web应用程序。
+
+常见的前端框架有AngularJS、React、Vue.js等。这些框架提供了用于构建应用程序所需的工具和指南，从而帮助开发者更加高效地构建复杂的web应用程序，并且遵循一些常见的最佳实践。使用前端框架可以使开发者在设计和实现同样的功能时可以更加快速且高效，从而节省了开发时间，提高了开发效率。同时，框架的模块化设计可以使得代码更加结构化和可维护。
+
+## 运行JavaScript的另一个选择：Node.js
+
+Node.js是一个开源的跨平台的JavaScript运行环境，使得开发者能够在服务器端使用JavaScript编写高性能、可扩展的网络应用和应用程序。Node.js基于Chrome浏览器的V8引擎构建而成，能够依靠事件驱动、非阻塞I/O模型，让应用程序更加高效地运行。Node.js的出现极大地促进了JavaScript的应用领域，使得JavaScript不再局限于仅仅在网页上运行，而是可以在服务器端实现高效的运算和处理大量并发请求。同时，Node.js拥有一个庞大的开源社区，提供了许多有用的模块和工具，使得开发者可以更加便捷、高效地开发出复杂的应用程序。
+
+简单来说，Node.js的出现使得JavaScript可以在服务器端运行，而不仅仅局限于浏览器端。Node.js的出现使得JavaScript的应用领域更加广泛，使得JavaScript不仅仅可以用来开发网页，还可以用来开发服务器端的应用程序。
+
+## DOM （Document Object Model）
+
+DOM是一种用于表示和操作HTML、XML和SVG文档的标准编程接口。DOM将文档解析为一个由节点和对象（包含属性和方法的对象）组成的结构集合。简单来说，DOM是一种用于表示和操作HTML文档的标准编程接口。
+
+## Universal JavaScript
+
+Universal JavaScript也就是ECMAScript，是一种用于编写能够同时运行在客户端和服务器端的JavaScript代码的技术。Universal JavaScript的出现使得开发者可以使用同一套代码来实现客户端和服务器端的功能，从而提高了开发效率。
+
+## 如何构筑一个最基本的开发环境
+
+虽然开发JavaScript可以在记事本上直接开发。但是考虑到开发的效率，我们还是需要一个开发环境。开发环境可以帮助我们更加高效地开发JavaScript应用程序，从而提高开发效率。此处推荐在各种环境下都可以运行，有着丰富的插件和工具的Visual Studio Code。
