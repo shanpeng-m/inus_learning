@@ -51,8 +51,9 @@ sessionStorage.removeItem('sessionId');
 - 对于敏感数据，不建议使用 `localStorage` 或 `sessionStorage`，因为它们在客户端存储，可能存在安全风险。
 - 存储的数据都是字符串类型，如果需要存储对象，可以使用 `JSON.stringify` 来转换对象为字符串，获取时再用 `JSON.parse` 还原。
 
+## 异步通信和 Fetch API
 
-当然可以。异步通信是 Web 开发中的一个重要概念，它允许 Web 应用在不干扰用户界面的情况下与服务器进行数据交换。Fetch API 是实现异步通信的现代方法之一。
+异步通信是 Web 开发中的一个重要概念，它允许 Web 应用在不干扰用户界面的情况下与服务器进行数据交换。Fetch API 是实现异步通信的现代方法之一。
 
 ### 什么是异步通信（Asynchronous Communication）
 
@@ -128,8 +129,9 @@ fetch('https://api.example.com/data')
 
 异步通信允许 Web 应用在后台执行耗时任务（如数据请求），同时不阻塞用户界面。Fetch API 是实现这种通信的强大工具，它通过 Promise 提供了一种优雅的方式来处理异步 HTTP 请求。通过 Fetch API，开发者可以轻松实现数据的加载、提交等操作，提高应用的性能和用户体验。
 
+## Promise 对象
 
-当然可以。`Promise` 对象是 JavaScript 中处理异步操作的关键概念。在深入了解 `Promise` 之前，我们需要理解异步编程在 JavaScript 中的重要性。
+`Promise` 对象是 JavaScript 中处理异步操作的关键概念。在深入了解 `Promise` 之前，我们需要理解异步编程在 JavaScript 中的重要性。
 
 ### 异步编程
 
@@ -208,6 +210,9 @@ Promise.all([promise1, promise2, promise3])
 ### 总结
 
 `Promise` 是 JavaScript 中处理异步操作的强大工具。它提供了一种清晰的方式来处理异步操作的成功或失败，并支持链式调用和组合多个异步操作。这使得编写异步代码变得更加简洁和易于管理。
+
+## Web Workers
+
 当然可以。Web Workers 是一个强大的 Web API，它允许在 JavaScript 的主执行线程之外运行脚本，实现真正的多线程编程。由于 JavaScript 通常是单线程的，长时间运行的或复杂的计算任务可能会阻塞用户界面。Web Workers 通过允许这些任务在后台线程中运行来解决这个问题。
 
 ### 基本概念
