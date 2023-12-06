@@ -142,3 +142,199 @@ data() {
 ```
 
 这样，`internalValue`是一个内部状态，可以自由修改，而不会影响到父组件传递的`initialValue` prop。如果需要将更改反馈给父组件，可以使用事件。
+
+### 使用$emit通知父组件
+
+在 Vue.js 中，`$emit` 是一种在组件间进行通信的方法，尤其是用于子组件向父组件发送消息。这是实现组件间通信的常用技术之一，尤其当你需要让父组件知道某些事件发生在子组件中时。
+
+### 原理
+
+`$emit` 的工作原理基于 Vue 的自定义事件系统。当一个子组件需要通知其父组件发生了某个事件时，它会 "发射"（emit）一个事件。这个事件可以附带一些参数，这些参数可以传递给父组件。父组件监听这个事件，并定义一个方法来响应这个事件。
+
+### 使用方法
+
+#### 步骤 1: 子组件发射事件
+
+子组件使用 `$emit` 发射一个事件，并可以传递数据作为参数。
+
+**子组件 (ChildComponent.vue):**
+
+```vue
+<template>
+  <button @click="notifyParent">点击我</button>
+</template>
+
+<script>
+export default {
+  methods: {
+    notifyParent() {
+      // 发射一个名为 'childEvent' 的事件，传递 'someData' 作为参数
+      this.$emit('childEvent', 'someData');
+    }
+  }
+}
+</script>
+```
+
+在这个例子中，当按钮被点击时，`notifyParent` 方法会被调用，它使用 `$emit` 来发射 `childEvent` 事件，并传递字符串 `'someData'` 作为参数。
+
+#### 步骤 2: 父组件监听事件
+
+父组件在使用子组件的地方监听这个事件，并定义一个方法来响应这个事件。
+
+**父组件 (ParentComponent.vue):**
+
+```vue
+<template>
+  <div>
+    <child-component @childEvent="handleChildEvent"></child-component>
+  </div>
+</template>
+
+<script>
+import ChildComponent from './ChildComponent.vue';
+
+export default {
+  components: {
+    ChildComponent
+  },
+  methods: {
+    handleChildEvent(data) {
+      console.log("事件被触发，接收到的数据:", data);
+      // 这里可以根据接收到的数据执行更多操作
+    }
+  }
+}
+</script>
+```
+
+在父组件中，通过 `@childEvent="handleChildEvent"` 监听子组件发射的 `childEvent` 事件。当这个事件发生时，`handleChildEvent` 方法被调用，接收从子组件发送的数据（在这个例子中是字符串 `'someData'`）。
+
+使用 `$emit` 通知父组件是 Vue 中实现子到父通信的一种有效方式。通过这种方法，子组件可以发射事件，父组件可以监听并响应这些事件。这种通信机制不仅简洁高效，而且有助于保持组件的封装性和可重用性。
+
+当子组件发送多个不同的 `emit` 来通知父组件时，父组件可以通过监听不同的事件名称来区分这些 `emit` 来自哪里。每个 `$emit` 调用通常会包含一个特定的事件名称，这使得父组件能够根据这些名称区分不同的事件来源。
+
+### 示例
+
+假设子组件有两个按钮，每个按钮点击时发出不同的 `emit`。
+
+**子组件 (ChildComponent.vue):**
+
+```vue
+<template>
+  <button @click="emitEventOne">Emit Event One</button>
+  <button @click="emitEventTwo">Emit Event Two</button>
+</template>
+
+<script>
+export default {
+  methods: {
+    emitEventOne() {
+      // 发射第一个事件
+      this.$emit('eventOne', 'Data from Event One');
+    },
+    emitEventTwo() {
+      // 发射第二个事件
+      this.$emit('eventTwo', 'Data from Event Two');
+    }
+  }
+}
+</script>
+```
+
+在这个子组件中，定义了两个方法 `emitEventOne` 和 `emitEventTwo`，分别用于发出名为 `eventOne` 和 `eventTwo` 的事件。
+
+**父组件 (ParentComponent.vue):**
+
+```vue
+<template>
+  <div>
+    <child-component 
+      @eventOne="handleEventOne" 
+      @eventTwo="handleEventTwo"
+    ></child-component>
+  </div>
+</template>
+
+<script>
+import ChildComponent from './ChildComponent.vue';
+
+export default {
+  components: {
+    ChildComponent
+  },
+  methods: {
+    handleEventOne(data) {
+      console.log("Event One triggered:", data);
+    },
+    handleEventTwo(data) {
+      console.log("Event Two triggered:", data);
+    }
+  }
+}
+</script>
+```
+
+在父组件中，分别监听这两个事件，并为它们指定了不同的处理函数：`handleEventOne` 用于处理 `eventOne`，`handleEventTwo` 用于处理 `eventTwo`。这样，当子组件发出特定的 `emit` 时，父组件就可以通过不同的事件处理器来区分它们，并知道是哪个部分的代码触发了事件。
+
+通过为不同的 `emit` 指定不同的事件名称，并在父组件中对这些不同的事件设置不同的监听器，可以轻松区分和确定子组件中哪个部分发出了 `emit`。这种模式不仅清晰明了，还有助于维护组件间清晰的通信界限和逻辑流程。
+
+### provide and inject
+
+在 Vue.js 中，`provide` 和 `inject` 是一对用于跨组件树进行通信的选项，主要用于父组件向其所有子孙组件提供数据，而无需通过每个子组件逐层传递。这对于在深层嵌套的组件中共享数据非常有用，例如在组件库或高阶应用中。
+
+### 原理
+
+- **provide**: 父组件使用 `provide` 选项来提供数据。`provide` 可以是一个对象或返回对象的函数。提供的数据可以是响应式的或普通的对象。
+- **inject**: 子组件使用 `inject` 选项来声明它希望从其祖先组件接收的数据。`inject` 是一个字符串数组，指定了要注入的属性名。
+
+### 示例
+
+假设我们有一个场景，其中父组件需要向所有子组件提供一个消息。
+
+#### 父组件
+
+首先，在父组件中使用 `provide` 选项：
+
+```vue
+<script>
+export default {
+  provide() {
+    return {
+      sharedMessage: 'Hello from parent'
+    };
+  }
+}
+</script>
+```
+
+在这个例子中，父组件提供了一个名为 `sharedMessage` 的数据。
+
+#### 子组件
+
+然后，在任何子组件中，你可以使用 `inject` 选项来接收 `sharedMessage` 数据：
+
+```vue
+<script>
+export default {
+  inject: ['sharedMessage'],
+  mounted() {
+    console.log(this.sharedMessage); // 输出: 'Hello from parent'
+  }
+}
+</script>
+```
+
+在这里，子组件通过 `inject` 选项注入了 `sharedMessage`。现在，这个子组件可以访问由其祖先组件提供的 `sharedMessage` 数据。
+
+### 使用场景
+
+`provide` 和 `inject` 经常在高级应用或组件库中使用，比如在开发提供跨多个组件共享状态的插件时。由于这种方式不需要显示的属性传递，它特别适合于深层嵌套组件的场景。
+
+### 注意事项
+
+- `provide` 和 `inject` 绑定并不是响应式的，除非你传递的是响应式对象。从 Vue 3 开始，你可以使用 `reactive` 函数使提供的对象变成响应式。
+- 这种模式虽然强大，但如果过度使用可能会使得组件间的依赖关系变得不明确。因此，建议仅在必要时使用，尤其是在那些需要跨多层级传递数据的场景中。
+
+通过使用 `provide` 和 `inject`，Vue 应用可以实现跨组件层级的通信，同时保持组件的封装性和重用性。
+
